@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo"><div class="logo-box">🍽️</div>Hostel<span>Food</span></a>
+  <ul class="nav-links">
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="feedback.html" class="active">Feedback</a></li>
+    <li><a href="voting.html">Vote</a></li>
+    <li><a href="announcements.html">Announcements</a></li>
+    <li><a href="#" onclick="Auth.logout()" class="btn-outline btn-sm ms-2" style="color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3);"><i class="fas fa-sign-out-alt"></i></a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="feedback.html">⭐ Feedback</a>
+  <a href="voting.html">🗳️ Vote</a>
+  <a href="#" onclick="Auth.logout()">🚪 Logout</a>
+</div>
+
+<div class="page-wrap">
+  <div class="container py-4">
+
+    <!-- Page heading -->
+    <div class="fade-up mb-4">
+      <div class="section-tag">Rate Today's Meals</div>
+      <h2 class="section-title mt-1">Food Feedback</h2>
+      <div class="section-divider divider-left"></div>
+    </div>
+
+    <!-- Feedback window info bar -->
+    <div class="info-bar fade-up d1">
+      <div>
+        <div class="ib-label">Feedback Window</div>
+        <div class="ib-value" id="windowTxt">Open: Today 5:00 AM → Tomorrow 5:00 AM</div>
+      </div>
+      <div>
+        <div class="ib-label">Time Remaining</div>
+        <div class="countdown-box" id="countdown">--:--:--</div>
+      </div>
+      <div class="ib-pill">
+        <i class="fas fa-users me-2"></i>1 submission per student per day
+      </div>
+    </div>
+
+    <div id="alert-box"></div>
+
+    <!-- Feedback cards grid -->
+    <div class="row g-4" id="fbGrid"></div>
+
+    <!-- Submit -->
+    <div class="text-center mt-4 fade-up d5">
+      <button class="btn-primary" id="submitBtn" style="font-size:0.95rem; padding:13px 42px;" onclick="submitFeedback()">
+        <i class="fas fa-paper-plane"></i> Submit All Feedback
+      </button>
+      <p style="color:var(--g600); font-size:0.78rem; margin-top:0.6rem;">
+        <i class="fas fa-info-circle me-1"></i>You can update your feedback anytime within the 24-hour window
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer mt-5">
+  <div class="container"><p class="footer-copy" style="margin:0;">© 2026 Hostel Food Feedback System — Rajalakshmi Engineering College</p></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+const MEALS = [
+  { key:'BREAKFAST', label:'Breakfast', icon:'☀️', bg:'#fff8e1', time:'6:30 – 8:30 AM' },
+  { key:'LUNCH',     label:'Lunch',     icon:'🌤️', bg:'#f1f8e9', time:'11:30 – 1:30 PM' },
+  { key:'SNACKS',    label:'Snacks',    icon:'🌥️', bg:'#f3e5f5', time:'4:30 – 5:30 PM' },
+  { key:'DINNER',    label:'Dinner',    icon:'🌙', bg:'#e8eaf6', time:'7:30 – 8:30 PM' }
+];
+const ratings = {};
+
+function buildCards() {
+  const grid = document.getElementById('fbGrid');
+  MEALS.forEach((m, i) => {
+    ratings[m.key] = 0;
+    const items = MOCK.menu[m.key].map(it => `<span style="font-size:0.8rem; color:var(--g600); background:var(--g50); padding:2px 8px; border-radius:20px; margin:2px; display:inline-block;">${it}</span>`).join('');
+    const stars = [5,4,3,2,1].map(n =>
+      `<input type="radio" name="r_${m.key}" id="r_${m.key}_${n}" value="${n}">
+       <label for="r_${m.key}_${n}" title="${n} star">★</label>`
+    ).join('');
+    grid.innerHTML += `
+      <div class="col-md-6 fade-up d${i+1}">
+        <div class="fb-card">
+          <div class="fb-head" style="background:${m.bg};">
+            <div style="font-size:1.7rem;">${m.icon}</div>
+            <div>
+              <div style="font-family:'Playfair Display',serif; font-weight:600; color:var(--g800); font-size:1.05rem;">${m.label}</div>
+              <div style="font-size:0.72rem; color:var(--g600);">${m.time}</div>
+            </div>
+          </div>
+          <div class="fb-body">
+            <div style="margin-bottom:0.9rem;">
+              <div style="font-size:0.78rem; font-weight:600; color:var(--g600); margin-bottom:0.4rem;">Today's items:</div>
+              <div>${items}</div>
+            </div>
+            <hr style="border-color:rgba(64,145,108,0.1); margin:0.9rem 0;">
+            <div class="form-label">Your Rating</div>
+            <div class="star-group" id="stars_${m.key}">${stars}</div>
+            <div class="rating-label" id="rlabel_${m.key}">Click a star to rate</div>
+            <div class="form-group mt-3">
+              <label class="form-label">Comments <span style="font-weight:400; opacity:0.6;">(optional)</span></label>
+              <textarea class="form-control" id="comment_${m.key}" placeholder="Share your thoughts on ${m.label.toLowerCase()} today..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  });
+
+  // Star interaction
+  MEALS.forEach(m => {
+    document.querySelectorAll(`input[name="r_${m.key}"]`).forEach(inp => {
+      inp.addEventListener('change', () => {
+        ratings[m.key] = parseInt(inp.value);
+        const labels = ['','Poor 😞','Fair 😐','Good 😊','Great 😄','Excellent 🤩'];
+        document.getElementById(`rlabel_${m.key}`).textContent =
+          `${ratings[m.key]} star${ratings[m.key] > 1 ? 's' : ''} — ${labels[ratings[m.key]]}`;
+      });
+    });
+  });
+}
+
+function submitFeedback() {
+  const hasRating = Object.values(ratings).some(r => r > 0);
+  if (!hasRating) { showAlert('alert-box', 'Please rate at least one meal before submitting.', 'danger'); return; }
+  const btn = document.getElementById('submitBtn');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+  btn.disabled  = true;
+  setTimeout(() => {
+    showAlert('alert-box', '✅ Feedback submitted successfully! Thank you for helping us improve dining quality.', 'success');
+    toast('Feedback submitted! 🎉', 'success');
+    btn.innerHTML = '<i class="fas fa-check"></i> Feedback Submitted';
+  }, 1200);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildCards();
+  startCountdown('countdown');
+  if (!isFeedbackOpen()) {
+    document.getElementById('windowTxt').textContent = 'Feedback window is currently closed';
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').textContent = 'Feedback Closed';
+    showAlert('alert-box', 'The feedback window for today has closed. It opens again at 5:00 AM.', 'warning');
+  }
+});
+</script>
+</body>
+</html>

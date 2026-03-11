@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { min-height: 100vh; display: flex; flex-direction: column; }
+    .auth-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80');
+      background-size: cover; background-position: center;
+    }
+    .auth-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,31,15,0.87), rgba(30,86,49,0.75));
+    }
+    .auth-wrap {
+      position: relative; z-index: 1;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 5rem 1rem 2rem;
+    }
+    .auth-card {
+      width: 100%; max-width: 430px;
+      background: rgba(255,255,255,0.97);
+      border-radius: var(--radius-lg);
+      padding: 2.4rem;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+    .auth-top { text-align: center; margin-bottom: 2rem; }
+    .auth-icon {
+      width: 62px; height: 62px;
+      background: linear-gradient(135deg, var(--g600), var(--g400));
+      border-radius: 17px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.7rem;
+      margin: 0 auto 1rem; box-shadow: 0 8px 22px rgba(45,106,79,0.3);
+    }
+    .or-divider { display: flex; align-items: center; gap: 11px; margin: 1.4rem 0; color: var(--g400); font-size: 0.78rem; }
+    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: rgba(64,145,108,0.2); }
+    .demo-box {
+      background: rgba(64,145,108,0.06); border: 1px dashed rgba(64,145,108,0.3);
+      border-radius: var(--radius-sm); padding: 11px 14px;
+      font-size: 0.77rem; color: var(--g700); margin-top: 1.25rem;
+    }
+    .eye-btn { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--g400); cursor: pointer; padding: 0; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo"><div class="logo-box">🍽️</div>Hostel<span>Food</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="register.html" class="btn-primary btn-sm ms-2">Register</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="../index.html">🏠 Home</a>
+  <a href="register.html">📝 Register</a>
+</div>
+
+<div class="auth-bg"></div>
+<div class="auth-wrap">
+  <div class="auth-card fade-up">
+    <div class="auth-top">
+      <div class="auth-icon">🔑</div>
+      <h2 style="font-size:1.55rem; color:var(--g800); margin-bottom:0.25rem;">Welcome Back</h2>
+      <p style="color:var(--g600); font-size:0.875rem;">Login with your college email</p>
+    </div>
+
+    <div id="alert-box"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-envelope i-icon"></i>
+          <input type="email" id="email" class="form-control"
+                 placeholder="yourname@rajalakshmi.edu.in" autocomplete="email" required>
+        </div>
+        <div id="emailErr" class="invalid-msg">
+          <i class="fas fa-exclamation-circle me-1"></i>Only @rajalakshmi.edu.in email is allowed
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-icon-wrap" style="position:relative;">
+          <i class="fas fa-lock i-icon"></i>
+          <input type="password" id="password" class="form-control"
+                 placeholder="Enter your password" autocomplete="current-password" required>
+          <button type="button" class="eye-btn" id="eyeBtn" onclick="toggleEye()">
+            <i class="fas fa-eye" id="eyeIcon"></i>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary btn-full mt-1" id="loginBtn" style="font-size:0.95rem; padding:13px;">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+    </form>
+
+    <div class="or-divider">or</div>
+
+    <div class="text-center">
+      <p style="color:var(--g600); font-size:0.875rem; margin-bottom:0.75rem;">
+        New student? <a href="register.html" style="color:var(--g600); font-weight:600;">Create an account →</a>
+      </p>
+      <a href="admin-login.html" style="color:var(--g400); font-size:0.8rem;">
+        <i class="fas fa-shield-alt me-1"></i>Admin Login
+      </a>
+    </div>
+
+    <div class="demo-box">
+      <i class="fas fa-info-circle me-2"></i>
+      <strong>Demo:</strong> Use <code>student@rajalakshmi.edu.in</code> with password <code>pass123</code>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+function toggleEye() {
+  const inp  = document.getElementById('password');
+  const icon = document.getElementById('eyeIcon');
+  if (inp.type === 'password') { inp.type = 'text';     icon.className = 'fas fa-eye-slash'; }
+  else                         { inp.type = 'password'; icon.className = 'fas fa-eye'; }
+}
+
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const pass  = document.getElementById('password').value;
+  const btn   = document.getElementById('loginBtn');
+  const errEl = document.getElementById('emailErr');
+
+  // Validate email domain
+  if (!isValidEmail(email)) {
+    document.getElementById('email').classList.add('is-invalid');
+    errEl.classList.add('show');
+    return;
+  }
+  document.getElementById('email').classList.remove('is-invalid');
+  errEl.classList.remove('show');
+
+  if (!pass) { showAlert('alert-box', 'Please enter your password.', 'danger'); return; }
+
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+  btn.disabled  = true;
+
+  // Simulate API call
+  await new Promise(r => setTimeout(r, 1000));
+
+  if (email.toLowerCase().includes('admin')) {
+    Auth.save('demo-admin-token', { ...MOCK.admin, email });
+    showAlert('alert-box', 'Login successful! Redirecting to admin dashboard...', 'success');
+    setTimeout(() => window.location.href = 'admin-dashboard.html', 1200);
+  } else if (pass.length >= 6) {
+    Auth.save('demo-student-token', { ...MOCK.student, email });
+    showAlert('alert-box', 'Login successful! Redirecting to dashboard...', 'success');
+    setTimeout(() => window.location.href = 'dashboard.html', 1200);
+  } else {
+    showAlert('alert-box', 'Invalid email or password. Please try again.', 'danger');
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+    btn.disabled  = false;
+  }
+});
+</script>
+</body>
+</html>

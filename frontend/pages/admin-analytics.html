@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — Admin | Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-box">🍽️</div>Hostel<span>Food</span>
+    <span class="nav-badge">ADMIN</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="admin-dashboard.html">Dashboard</a></li>
+    <li><a href="admin-analytics.html" class="active">Analytics</a></li>
+    <li><a href="#" onclick="Auth.logout()" class="btn-outline btn-sm ms-2" style="color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3);">Logout</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="admin-dashboard.html">📊 Dashboard</a>
+  <a href="admin-analytics.html">📈 Analytics</a>
+  <a href="#" onclick="Auth.logout()">🚪 Logout</a>
+</div>
+
+<div class="page-wrap">
+  <div class="container-fluid p-0">
+    <div class="admin-wrap">
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section">Management</div>
+        <a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+        <a href="admin-analytics.html" class="active"><i class="fas fa-chart-bar"></i>Analytics</a>
+        <div class="sidebar-section">Actions</div>
+        <a href="admin-dashboard.html"><i class="fas fa-bullhorn"></i>Post Announcement</a>
+        <a href="#" onclick="toast('Coming soon — connect backend','info')"><i class="fas fa-utensils"></i>Manage Menu</a>
+        <a href="admin-analytics.html"><i class="fas fa-poll"></i>Voting Results</a>
+        <div class="sidebar-section">System</div>
+        <a href="../index.html"><i class="fas fa-globe"></i>View Site</a>
+        <a href="#" onclick="Auth.logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+      </aside>
+
+      <!-- Main content -->
+      <main class="admin-main">
+        <div class="fade-up mb-4">
+          <h2 style="font-family:'Playfair Display',serif; color:var(--g800);">Feedback Analytics</h2>
+          <p style="color:var(--g600); font-size:0.82rem;">Real-time insights into student dining satisfaction</p>
+        </div>
+
+        <!-- Summary stats -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3 fade-up d1">
+            <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-num">4.1</div><div class="stat-lbl">Overall Avg Rating</div></div>
+          </div>
+          <div class="col-6 col-lg-3 fade-up d2">
+            <div class="stat-card" style="border-left-color:var(--gold);"><div class="stat-icon">🏆</div><div class="stat-num">Dinner</div><div class="stat-lbl">Most Liked Meal</div></div>
+          </div>
+          <div class="col-6 col-lg-3 fade-up d3">
+            <div class="stat-card" style="border-left-color:var(--danger);"><div class="stat-icon">📉</div><div class="stat-num">Snacks</div><div class="stat-lbl">Needs Improvement</div></div>
+          </div>
+          <div class="col-6 col-lg-3 fade-up d4">
+            <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-num">331</div><div class="stat-lbl">Feedbacks Today</div></div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Bar chart -->
+          <div class="col-lg-7 fade-up d2">
+            <div class="card-white p-4" style="cursor:default;">
+              <h5 style="font-family:'Playfair Display',serif; color:var(--g800); margin-bottom:1.4rem;">Average Ratings by Meal</h5>
+              <canvas id="barChart" height="220"></canvas>
+            </div>
+          </div>
+
+          <!-- Doughnut chart -->
+          <div class="col-lg-5 fade-up d3">
+            <div class="card-white p-4" style="cursor:default;">
+              <h5 style="font-family:'Playfair Display',serif; color:var(--g800); margin-bottom:1.4rem;">Rating Distribution</h5>
+              <canvas id="donutChart" height="220"></canvas>
+            </div>
+          </div>
+
+          <!-- Breakdown bars -->
+          <div class="col-lg-6 fade-up d3">
+            <div class="card-white p-4" style="cursor:default;">
+              <h5 style="font-family:'Playfair Display',serif; color:var(--g800); margin-bottom:1.4rem;">Meal Breakdown</h5>
+              <div id="breakdown"></div>
+            </div>
+          </div>
+
+          <!-- Voting results table -->
+          <div class="col-lg-6 fade-up d4">
+            <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-sm);">
+              <div style="background:linear-gradient(135deg,var(--g800),var(--g700)); color:#fff; padding:1.1rem 1.4rem;">
+                <h5 style="font-family:'Playfair Display',serif; margin:0;">🗳️ This Week's Voting Results</h5>
+                <p style="font-size:0.75rem; opacity:0.7; margin:0.2rem 0 0;">Winning dishes will be served next week</p>
+              </div>
+              <div class="tbl-wrap" style="border-radius:0;">
+                <table class="tbl">
+                  <thead><tr><th>Meal</th><th>Winning Dish</th><th>Votes</th><th>Status</th></tr></thead>
+                  <tbody id="voteTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ── Bar chart ──
+  new Chart(document.getElementById('barChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Breakfast', 'Lunch', 'Snacks', 'Dinner'],
+      datasets: [{
+        label: 'Avg Rating',
+        data: [4.2, 3.8, 3.5, 4.5],
+        backgroundColor: ['rgba(255,183,77,0.82)', 'rgba(64,145,108,0.82)', 'rgba(111,66,193,0.75)', 'rgba(26,61,37,0.82)'],
+        borderRadius: 8, borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min:0, max:5, ticks:{ stepSize:1 }, grid:{ color:'rgba(64,145,108,0.1)' } },
+        x: { grid:{ display:false } }
+      }
+    }
+  });
+
+  // ── Doughnut chart ──
+  new Chart(document.getElementById('donutChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['5 ★', '4 ★', '3 ★', '2 ★', '1 ★'],
+      datasets: [{
+        data: [45, 30, 15, 7, 3],
+        backgroundColor: ['#1e5631','#40916c','#74c69d','#f4c430','#dc3545'],
+        borderWidth: 0, hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true, cutout: '70%',
+      plugins: { legend: { position:'right', labels:{ font:{ family:'DM Sans' }, padding:14 } } }
+    }
+  });
+
+  // ── Breakdown bars ──
+  const meals = [
+    { name:'Breakfast', avg:4.2, count:87 },
+    { name:'Lunch',     avg:3.8, count:92 },
+    { name:'Snacks',    avg:3.5, count:64 },
+    { name:'Dinner',    avg:4.5, count:88 }
+  ];
+  document.getElementById('breakdown').innerHTML = meals.map(m => `
+    <div style="margin-bottom:1rem;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem;">
+        <span style="font-weight:600; color:var(--g800); font-size:0.875rem;">${m.name}</span>
+        <span style="color:var(--gold); font-size:0.875rem;">★ ${m.avg} <span style="color:var(--g600); font-size:0.75rem;">(${m.count})</span></span>
+      </div>
+      <div class="rbar-track"><div class="rbar-fill" style="width:${(m.avg/5*100).toFixed(0)}%;"></div></div>
+    </div>`).join('');
+
+  // ── Voting results table ──
+  const votes = [
+    { meal:'Breakfast', winner:'Masala Dosa',  votes:312, pct:62 },
+    { meal:'Lunch',     winner:'Curd Rice',    votes:287, pct:57 },
+    { meal:'Snacks',    winner:'Medhu Bonda',  votes:198, pct:49 },
+    { meal:'Dinner',    winner:'Veg Biryani',  votes:342, pct:68 }
+  ];
+  document.getElementById('voteTable').innerHTML = votes.map(v => `
+    <tr>
+      <td><span class="badge badge-green" style="font-size:0.65rem;">${v.meal}</span></td>
+      <td><strong style="color:var(--g700); font-size:0.875rem;">${v.winner}</strong></td>
+      <td style="font-weight:600; color:var(--g800);">${v.votes}</td>
+      <td><span class="badge badge-green">✅ Winner</span></td>
+    </tr>`).join('');
+});
+</script>
+</body>
+</html>

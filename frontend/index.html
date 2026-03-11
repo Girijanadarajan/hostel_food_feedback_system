@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel Food Feedback System — Rajalakshmi Engineering College</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hero-pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 30px; padding: 5px 16px;
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--g200);
+      margin-bottom: 1.4rem; backdrop-filter: blur(6px);
+    }
+    .hero-stats { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+    .hstat { text-align: center; }
+    .hstat-num  { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--g300); line-height: 1; }
+    .hstat-lbl  { font-size: 0.72rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.07em; margin-top: 0.2rem; }
+    .hstat + .hstat { border-left: 1px solid rgba(255,255,255,0.18); padding-left: 2rem; }
+    .feat-card {
+      background: #fff; border-radius: var(--radius-lg); padding: 1.8rem;
+      box-shadow: var(--shadow-sm); border-top: 4px solid var(--g500);
+      height: 100%; transition: var(--trans);
+    }
+    .feat-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .feat-icon { width: 52px; height: 52px; border-radius: 13px; background: var(--g50); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.1rem; }
+    .info-chip {
+      display: flex; align-items: center; gap: 12px;
+      background: #fff; border-radius: var(--radius-sm);
+      padding: 11px 15px; box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(64,145,108,0.1); margin-bottom: 10px;
+    }
+    .info-chip .chip-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .info-chip strong { color: var(--g800); font-size: 0.875rem; display: block; }
+    .info-chip span { color: var(--g600); font-size: 0.78rem; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-box">🍽️</div>
+    Hostel<span>Food</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="pages/about.html">About</a></li>
+    <li><a href="pages/announcements.html">Announcements</a></li>
+    <li><a href="pages/contact.html">Contact</a></li>
+    <li><a href="pages/login.html" class="btn-outline btn-sm ms-2">Login</a></li>
+    <li><a href="pages/register.html" class="btn-primary btn-sm ms-1">Register</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="index.html"><i class="fas fa-home me-2"></i>Home</a>
+  <a href="pages/about.html"><i class="fas fa-info-circle me-2"></i>About</a>
+  <a href="pages/announcements.html"><i class="fas fa-bullhorn me-2"></i>Announcements</a>
+  <a href="pages/contact.html"><i class="fas fa-envelope me-2"></i>Contact</a>
+  <a href="pages/login.html"><i class="fas fa-sign-in-alt me-2"></i>Login</a>
+  <a href="pages/register.html"><i class="fas fa-user-plus me-2"></i>Register</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1600&q=80')"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content fade-up">
+    <div class="hero-pill">🏫 Rajalakshmi Engineering College</div>
+    <h1 style="font-size: clamp(2rem,6vw,3.8rem); font-weight:900; line-height:1.1; margin-bottom:1.1rem;">
+      Hostel Food<br><span style="color: var(--g300);">Feedback System</span>
+    </h1>
+    <p style="font-size: clamp(0.95rem,2vw,1.15rem); opacity:0.82; max-width:540px; margin:0 auto 2rem; line-height:1.75;">
+      Scan the QR code in your dining hall, rate your meals, vote for next week's menu and help us serve better food every day.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="pages/register.html" class="btn-primary" style="font-size:1rem; padding:13px 34px;">
+        <i class="fas fa-user-plus"></i> Get Started
+      </a>
+      <a href="pages/login.html" class="btn-white" style="font-size:1rem; padding:13px 34px;">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+    </div>
+    <div class="hero-stats fade-up d3">
+      <div class="hstat"><div class="hstat-num">1200+</div><div class="hstat-lbl">Students</div></div>
+      <div class="hstat"><div class="hstat-num">4</div><div class="hstat-lbl">Daily Meals</div></div>
+      <div class="hstat"><div class="hstat-num">24h</div><div class="hstat-lbl">Feedback Window</div></div>
+      <div class="hstat"><div class="hstat-num">Live</div><div class="hstat-lbl">Voting</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENTS -->
+<section style="background: linear-gradient(135deg, var(--g800), var(--g700)); padding: 3.5rem 0;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <div class="section-tag" style="color: var(--g200);">Latest Updates</div>
+      <h2 style="font-family:'Playfair Display',serif; color:#fff; font-size:1.9rem; margin-top:0.3rem;">Hostel Announcements</h2>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8" id="ann-preview"></div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="pages/announcements.html" class="btn-white">
+        View All Announcements <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="container">
+    <div class="section-head fade-up">
+      <div class="section-tag">Simple Process</div>
+      <h2 class="section-title">How It Works</h2>
+      <div class="section-divider"></div>
+      <p class="section-sub">Three easy steps to a better dining experience</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 fade-up d1">
+        <div class="feat-card text-center">
+          <div class="feat-icon mx-auto">📱</div>
+          <h5 style="color:var(--g800); margin-bottom:0.7rem;">Scan QR Code</h5>
+          <p style="color:var(--g600); font-size:0.875rem; line-height:1.7;">Find the QR code placed at the hostel dining hall entrance. Scan it with your phone to open the system instantly — no app download needed.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-up d2">
+        <div class="feat-card text-center">
+          <div class="feat-icon mx-auto">⭐</div>
+          <h5 style="color:var(--g800); margin-bottom:0.7rem;">Rate Your Meals</h5>
+          <p style="color:var(--g600); font-size:0.875rem; line-height:1.7;">Give 1–5 star ratings with comments for Breakfast, Lunch, Snacks and Dinner. The feedback window stays open for 24 hours each day.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-up d3">
+        <div class="feat-card text-center">
+          <div class="feat-icon mx-auto">🗳️</div>
+          <h5 style="color:var(--g800); margin-bottom:0.7rem;">Vote for Menu</h5>
+          <p style="color:var(--g600); font-size:0.875rem; line-height:1.7;">Vote for your favourite dishes each week. The most-voted dish per meal is automatically set as next week's menu — your choice matters!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="section" style="background: linear-gradient(135deg, #f0faf4, #e8f5e9);">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 fade-up">
+        <div style="position:relative; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-xl);">
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&q=80"
+               alt="Hostel Dining Hall"
+               style="width:100%; height:380px; object-fit:cover; display:block;">
+          <div style="position:absolute; bottom:18px; left:18px; background:rgba(255,255,255,0.95); border-radius:var(--radius-md); padding:0.9rem 1.2rem; backdrop-filter:blur(10px); box-shadow:var(--shadow-md);">
+            <div style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:var(--g800);">🏆 Quality Dining</div>
+            <div style="font-size:0.77rem; color:var(--g600); margin-top:0.2rem;">Serving 1200+ students every day</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-up d2">
+        <div class="section-tag">About the System</div>
+        <h2 class="section-title mt-2">Your Voice Shapes<br>Our Dining</h2>
+        <div class="section-divider divider-left"></div>
+        <p style="color:var(--g600); line-height:1.8; margin-bottom:1.4rem;">
+          The Hostel Food Feedback System empowers students at Rajalakshmi Engineering College to directly influence their daily meals. Only students with a verified college email
+          <strong style="color:var(--g700);">(@rajalakshmi.edu.in)</strong> can register — ensuring all feedback is genuine.
+        </p>
+        <div class="info-chip">
+          <span class="chip-icon">🔐</span>
+          <div><strong>College-Only Access</strong><span>Only @rajalakshmi.edu.in emails are accepted</span></div>
+        </div>
+        <div class="info-chip">
+          <span class="chip-icon">📊</span>
+          <div><strong>Data-Driven Menus</strong><span>Voting results automatically update next week's menu</span></div>
+        </div>
+        <div class="info-chip">
+          <span class="chip-icon">⏰</span>
+          <div><strong>Smart Time Windows</strong><span>24-hour feedback & voting windows auto-expire</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="background: linear-gradient(135deg, var(--g800), var(--g700), var(--g600)); text-align:center;">
+  <div class="container fade-up">
+    <h2 style="font-family:'Playfair Display',serif; color:#fff; font-size:clamp(1.7rem,4vw,2.6rem); margin-bottom:0.9rem;">Ready to Make a Difference?</h2>
+    <p style="color:var(--g200); margin-bottom:2rem; max-width:460px; margin-left:auto; margin-right:auto;">
+      Register with your college email and start shaping the hostel dining experience today.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="pages/register.html" class="btn-white"><i class="fas fa-user-plus"></i> Register Now</a>
+      <a href="pages/login.html" style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.8);border:2px solid rgba(255,255,255,0.4);padding:11px 26px;border-radius:var(--radius-xl);font-weight:600;font-size:0.875rem;transition:var(--trans);" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <h6>🍽️ Hostel Food Feedback</h6>
+        <p style="font-size:0.82rem; line-height:1.7; opacity:0.65;">Rajalakshmi Engineering College's digital platform for hostel dining feedback, menu voting and management.</p>
+      </div>
+      <div class="col-md-3 col-lg-2">
+        <h6>Navigate</h6>
+        <a href="index.html">Home</a>
+        <a href="pages/dashboard.html">Dashboard</a>
+        <a href="pages/feedback.html">Feedback</a>
+        <a href="pages/voting.html">Voting</a>
+      </div>
+      <div class="col-md-3 col-lg-2">
+        <h6>Info</h6>
+        <a href="pages/about.html">About</a>
+        <a href="pages/announcements.html">Announcements</a>
+        <a href="pages/contact.html">Contact</a>
+        <a href="pages/admin-login.html">Admin</a>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <h6>Contact</h6>
+        <p style="font-size:0.82rem; opacity:0.65; line-height:1.7;">
+          <i class="fas fa-map-marker-alt me-2" style="color:var(--g400);"></i>Thandalam, Chennai — 602 105<br>
+          <i class="fas fa-envelope me-2 mt-2" style="color:var(--g400);"></i>hostel@rajalakshmi.edu.in
+        </p>
+      </div>
+    </div>
+    <hr>
+    <p class="footer-copy">© 2026 Hostel Food Feedback System — Rajalakshmi Engineering College. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Redirect if already logged in
+  if (Auth.loggedIn()) {
+    const dest = Auth.isAdmin() ? 'pages/admin-dashboard.html' : 'pages/dashboard.html';
+    window.location.href = dest;
+  }
+  // Render announcements preview
+  const box = document.getElementById('ann-preview');
+  if (box) {
+    MOCK.announcements.forEach(a => {
+      box.innerHTML += `
+        <div class="ann-card mb-3">
+          <div class="ann-label">📢 Announcement</div>
+          <h4>${a.title}</h4>
+          <p>${a.message}</p>
+          <div class="ann-time"><i class="fas fa-clock me-1"></i>Posted: ${fmtDateTime(a.postedAt)}</div>
+        </div>`;
+    });
+  }
+});
+</script>
+</body>
+</html>

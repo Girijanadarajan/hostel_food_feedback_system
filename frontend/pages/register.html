@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .auth-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1400&q=80');
+      background-size: cover; background-position: center;
+    }
+    .auth-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,31,15,0.88), rgba(30,86,49,0.76));
+    }
+    .auth-wrap {
+      position: relative; z-index: 1; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 5rem 1rem 2rem;
+    }
+    .auth-card {
+      width: 100%; max-width: 520px;
+      background: rgba(255,255,255,0.97); border-radius: var(--radius-lg);
+      padding: 2.4rem; box-shadow: var(--shadow-xl);
+    }
+    .auth-icon {
+      width: 62px; height: 62px;
+      background: linear-gradient(135deg, var(--g600), var(--g400));
+      border-radius: 17px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.7rem;
+      margin: 0 auto 1rem; box-shadow: 0 8px 22px rgba(45,106,79,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo"><div class="logo-box">🍽️</div>Hostel<span>Food</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="login.html" class="btn-outline btn-sm ms-2">Login</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="../index.html">🏠 Home</a>
+  <a href="login.html">🔑 Login</a>
+</div>
+
+<div class="auth-bg"></div>
+<div class="auth-wrap">
+  <div class="auth-card fade-up">
+    <div class="text-center mb-3">
+      <div class="auth-icon">📝</div>
+      <h2 style="font-size:1.55rem; color:var(--g800); margin-bottom:0.25rem;">Create Account</h2>
+      <p style="color:var(--g600); font-size:0.875rem;">Register with your college email to get started</p>
+    </div>
+
+    <div id="alert-box"></div>
+
+    <form id="regForm" novalidate>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Full Name</label>
+          <div class="input-icon-wrap">
+            <i class="fas fa-user i-icon"></i>
+            <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Register Number</label>
+          <div class="input-icon-wrap">
+            <i class="fas fa-id-badge i-icon"></i>
+            <input type="text" id="regNo" class="form-control" placeholder="RA2111003010XXX" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Hostel Block</label>
+          <div class="input-icon-wrap">
+            <i class="fas fa-building i-icon"></i>
+            <select id="block" class="form-control" required>
+              <option value="">Select Block</option>
+              <option>Block A</option>
+              <option>Block B</option>
+              <option>Block C</option>
+              <option>Block D</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12">
+          <label class="form-label">College Email</label>
+          <div class="input-icon-wrap">
+            <i class="fas fa-envelope i-icon"></i>
+            <input type="email" id="email" class="form-control"
+                   placeholder="yourname@rajalakshmi.edu.in" required>
+          </div>
+          <div id="emailErr" class="invalid-msg">
+            <i class="fas fa-exclamation-circle me-1"></i>Only @rajalakshmi.edu.in email is allowed
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Room Number</label>
+          <div class="input-icon-wrap">
+            <i class="fas fa-door-open i-icon"></i>
+            <input type="text" id="room" class="form-control" placeholder="e.g. 204" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Password</label>
+          <div class="input-icon-wrap">
+            <i class="fas fa-lock i-icon"></i>
+            <input type="password" id="password" class="form-control" placeholder="Min. 6 characters" required>
+          </div>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Confirm Password</label>
+          <div class="input-icon-wrap">
+            <i class="fas fa-lock i-icon"></i>
+            <input type="password" id="confirm" class="form-control" placeholder="Re-enter your password" required>
+          </div>
+          <div id="pwdErr" class="invalid-msg">
+            <i class="fas fa-exclamation-circle me-1"></i>Passwords do not match
+          </div>
+        </div>
+        <div class="col-12 mt-1">
+          <button type="submit" class="btn-primary btn-full" id="regBtn" style="font-size:0.95rem; padding:13px;">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="text-center mt-3">
+      <p style="color:var(--g600); font-size:0.875rem;">
+        Already registered? <a href="login.html" style="color:var(--g600); font-weight:600;">Login here →</a>
+      </p>
+    </div>
+    <div style="background:rgba(64,145,108,0.06); border:1px dashed rgba(64,145,108,0.3); border-radius:var(--radius-sm); padding:10px 13px; font-size:0.77rem; color:var(--g700); margin-top:0.75rem;">
+      <i class="fas fa-shield-alt me-2"></i>Only <strong>@rajalakshmi.edu.in</strong> college emails are accepted for registration.
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.getElementById('regForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const name  = document.getElementById('name').value.trim();
+  const regNo = document.getElementById('regNo').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const block = document.getElementById('block').value;
+  const room  = document.getElementById('room').value.trim();
+  const pwd   = document.getElementById('password').value;
+  const conf  = document.getElementById('confirm').value;
+  const btn   = document.getElementById('regBtn');
+  let valid   = true;
+
+  clearAlert('alert-box');
+
+  // Email validation
+  if (!isValidEmail(email)) {
+    document.getElementById('email').classList.add('is-invalid');
+    document.getElementById('emailErr').classList.add('show');
+    valid = false;
+  } else {
+    document.getElementById('email').classList.remove('is-invalid');
+    document.getElementById('emailErr').classList.remove('show');
+  }
+
+  // Password match
+  if (pwd !== conf || pwd.length < 6) {
+    document.getElementById('pwdErr').classList.add('show');
+    valid = false;
+  } else {
+    document.getElementById('pwdErr').classList.remove('show');
+  }
+
+  // Required fields
+  if (!name || !regNo || !block || !room || !pwd) {
+    showAlert('alert-box', 'Please fill in all fields.', 'danger');
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+  btn.disabled  = true;
+
+  await new Promise(r => setTimeout(r, 1300));
+
+  showAlert('alert-box', '🎉 Account created successfully! Redirecting to login...', 'success');
+  setTimeout(() => window.location.href = 'login.html', 2000);
+});
+</script>
+</body>
+</html>

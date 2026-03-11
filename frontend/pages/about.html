@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .abt-stat { background:#fff; border-radius:var(--radius-md); padding:1.2rem; text-align:center; box-shadow:var(--shadow-sm); border:1px solid rgba(64,145,108,0.1); }
+    .abt-stat .as-num { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:700; color:var(--g800); }
+    .abt-stat .as-lbl { font-size:0.78rem; color:var(--g600); margin-top:0.2rem; }
+    .feat-chip { display:flex; align-items:flex-start; gap:13px; background:#fff; border-radius:var(--radius-md); padding:1.1rem 1.3rem; box-shadow:var(--shadow-sm); border:1px solid rgba(64,145,108,0.1); margin-bottom:10px; transition:var(--trans); }
+    .feat-chip:hover { box-shadow:var(--shadow-md); transform:translateX(4px); }
+    .feat-chip .fc-icon { font-size:1.4rem; flex-shrink:0; margin-top:0.1rem; }
+    .feat-chip strong { color:var(--g800); font-size:0.875rem; display:block; margin-bottom:0.2rem; }
+    .feat-chip p { color:var(--g600); font-size:0.8rem; margin:0; line-height:1.6; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo"><div class="logo-box">🍽️</div>Hostel<span>Food</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html" class="btn-primary btn-sm ms-2">Login</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="../index.html">🏠 Home</a>
+  <a href="about.html">ℹ️ About</a>
+  <a href="contact.html">📬 Contact</a>
+  <a href="login.html">🔑 Login</a>
+</div>
+
+<!-- Hero -->
+<section class="hero" style="min-height:50vh;">
+  <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1400&q=80');"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content fade-up" style="padding-top:66px;">
+    <h1 style="font-size:clamp(2rem,5vw,3.2rem); font-weight:900; margin-bottom:0.9rem;">About the System</h1>
+    <p style="font-size:1rem; opacity:0.82; max-width:520px; margin:0 auto;">Empowering students at Rajalakshmi Engineering College to shape their daily dining experience</p>
+  </div>
+</section>
+
+<div class="page-wrap" style="padding-top:0;">
+  <div class="container py-5">
+
+    <!-- Purpose -->
+    <div class="row align-items-center g-5 mb-5">
+      <div class="col-lg-6 fade-up">
+        <div class="section-tag">Our Purpose</div>
+        <h2 class="section-title mt-2">Why Feedback Matters</h2>
+        <div class="section-divider divider-left"></div>
+        <p style="color:var(--g600); line-height:1.85; margin-bottom:1.25rem;">
+          Hostel dining directly impacts student health, energy and academic performance. The Hostel Food Feedback System bridges the gap between students and management — making every meal count.
+        </p>
+        <p style="color:var(--g600); line-height:1.85;">
+          By collecting structured ratings and enabling democratic dish voting, we ensure every plate served reflects what students actually want to eat.
+        </p>
+        <div class="row g-3 mt-2">
+          <div class="col-6"><div class="abt-stat"><div style="font-size:1.7rem;">📊</div><div class="as-num">87%</div><div class="as-lbl">Student satisfaction</div></div></div>
+          <div class="col-6"><div class="abt-stat"><div style="font-size:1.7rem;">🍽️</div><div class="as-num">4</div><div class="as-lbl">Meals tracked daily</div></div></div>
+          <div class="col-6"><div class="abt-stat"><div style="font-size:1.7rem;">👨‍🎓</div><div class="as-num">1200+</div><div class="as-lbl">Active students</div></div></div>
+          <div class="col-6"><div class="abt-stat"><div style="font-size:1.7rem;">🗳️</div><div class="as-num">Weekly</div><div class="as-lbl">Voting cycle</div></div></div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-up d2">
+        <div style="border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-xl);">
+          <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=700&q=80"
+               alt="Dining Hall" style="width:100%; height:380px; object-fit:cover; display:block;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="section-head fade-up">
+      <div class="section-tag">Key Features</div>
+      <h2 class="section-title">What Makes It Work</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 fade-up d1">
+        <div class="feat-chip"><div class="fc-icon">🔐</div><div><strong>College-Only Access</strong><p>Only @rajalakshmi.edu.in emails are accepted. This ensures all feedback is from genuine hostel students and staff — no outsiders.</p></div></div>
+        <div class="feat-chip"><div class="fc-icon">⭐</div><div><strong>Star Rating System</strong><p>Students rate each meal from 1 to 5 stars with optional comments. Ratings are collected within a 24-hour window per day.</p></div></div>
+        <div class="feat-chip"><div class="fc-icon">📱</div><div><strong>QR Code Access</strong><p>A QR code at the dining hall entrance opens the system instantly on any phone. No app download or manual URL needed.</p></div></div>
+      </div>
+      <div class="col-md-6 fade-up d2">
+        <div class="feat-chip"><div class="fc-icon">🗳️</div><div><strong>Democratic Menu Voting</strong><p>Students vote for next week's dishes each week. The winning dish per meal is automatically set as the menu — no admin override needed.</p></div></div>
+        <div class="feat-chip"><div class="fc-icon">⏰</div><div><strong>Smart Time Windows</strong><p>Feedback opens at 5:00 AM and closes 24 hours later. Announcements and voting windows also auto-expire to keep data fresh.</p></div></div>
+        <div class="feat-chip"><div class="fc-icon">📊</div><div><strong>Admin Analytics</strong><p>Hostel management can view average ratings per meal, most/least liked foods and complete voting results in real-time charts.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="background:linear-gradient(135deg,var(--g800),var(--g700)); padding:4rem 0; text-align:center;">
+  <div class="container fade-up">
+    <h2 style="font-family:'Playfair Display',serif; color:#fff; font-size:clamp(1.6rem,3.5vw,2.4rem); margin-bottom:0.9rem;">Start Contributing Today</h2>
+    <p style="color:var(--g200); margin-bottom:2rem; max-width:420px; margin-left:auto; margin-right:auto; font-size:0.9rem;">Your feedback makes a real difference to what gets served in the hostel dining hall.</p>
+    <a href="register.html" class="btn-white"><i class="fas fa-user-plus me-2"></i>Register Now</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container"><p class="footer-copy" style="margin:0;">© 2026 Hostel Food Feedback System — Rajalakshmi Engineering College</p></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

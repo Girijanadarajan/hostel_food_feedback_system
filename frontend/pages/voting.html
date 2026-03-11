@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vote — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .vote-card { background:#fff; border-radius:var(--radius-lg); border:2px solid rgba(64,145,108,0.1); box-shadow:var(--shadow-sm); overflow:hidden; height:100%; transition:var(--trans); }
+    .vote-card:hover { box-shadow:var(--shadow-md); border-color:rgba(64,145,108,0.2); }
+    .vote-head { padding:1.1rem 1.4rem; display:flex; align-items:center; gap:11px; }
+    .vote-body { padding:1.25rem 1.4rem; }
+    .voted-box { background:rgba(64,145,108,0.07); border:2px dashed rgba(64,145,108,0.3); border-radius:var(--radius-md); padding:1.75rem; text-align:center; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo"><div class="logo-box">🍽️</div>Hostel<span>Food</span></a>
+  <ul class="nav-links">
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <li><a href="voting.html" class="active">Vote</a></li>
+    <li><a href="announcements.html">Announcements</a></li>
+    <li><a href="#" onclick="Auth.logout()" class="btn-outline btn-sm ms-2" style="color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3);"><i class="fas fa-sign-out-alt"></i></a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="feedback.html">⭐ Feedback</a>
+  <a href="voting.html">🗳️ Vote</a>
+  <a href="#" onclick="Auth.logout()">🚪 Logout</a>
+</div>
+
+<div class="page-wrap">
+  <div class="container py-4">
+
+    <div class="fade-up mb-4">
+      <div class="section-tag">Weekly Preference</div>
+      <h2 class="section-title mt-1">Vote for Next Week's Menu</h2>
+      <div class="section-divider divider-left"></div>
+      <p style="color:var(--g600); font-size:0.9rem;">Choose your favourite dish for each meal. The most voted dish will be served next week!</p>
+    </div>
+
+    <div class="info-bar fade-up d1">
+      <div>
+        <div class="ib-label">Voting Window</div>
+        <div class="ib-value">This week only — results locked Sunday midnight</div>
+      </div>
+      <div class="ib-pill"><i class="fas fa-vote-yea me-2"></i>1 vote per meal per student</div>
+    </div>
+
+    <div id="alert-box"></div>
+
+    <div class="row g-4" id="voteGrid"></div>
+
+    <div class="text-center mt-4 fade-up d5">
+      <button class="btn-primary" id="voteSubmitBtn" style="font-size:0.95rem; padding:13px 42px;" onclick="submitVotes()">
+        <i class="fas fa-vote-yea"></i> Submit My Votes
+      </button>
+      <p style="color:var(--g600); font-size:0.78rem; margin-top:0.6rem;">
+        <i class="fas fa-lock me-1"></i>Once submitted, votes cannot be changed
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer mt-5">
+  <div class="container"><p class="footer-copy" style="margin:0;">© 2026 Hostel Food Feedback System — Rajalakshmi Engineering College</p></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+const MEALS = [
+  { key:'BREAKFAST', label:'Breakfast', icon:'☀️', bg:'#fff8e1' },
+  { key:'LUNCH',     label:'Lunch',     icon:'🌤️', bg:'#f1f8e9' },
+  { key:'SNACKS',    label:'Snacks',    icon:'🌥️', bg:'#f3e5f5' },
+  { key:'DINNER',    label:'Dinner',    icon:'🌙', bg:'#e8eaf6' }
+];
+const votes = {};
+
+function buildVoteCards() {
+  const grid = document.getElementById('voteGrid');
+  MEALS.forEach((m, i) => {
+    votes[m.key] = null;
+    const opts = MOCK.voteOptions[m.key].map(o => {
+      const safeId = o.replace(/[^a-zA-Z0-9]/g, '_');
+      return `<div class="vote-opt" id="opt_${m.key}_${safeId}" onclick="selectVote('${m.key}','${o}',this)">
+        <input type="radio" name="v_${m.key}" value="${o}">
+        <label>${o}</label>
+      </div>`;
+    }).join('');
+    grid.innerHTML += `
+      <div class="col-md-6 fade-up d${i+1}">
+        <div class="vote-card">
+          <div class="vote-head" style="background:${m.bg};">
+            <div style="font-size:1.7rem;">${m.icon}</div>
+            <div>
+              <div style="font-family:'Playfair Display',serif; font-weight:600; color:var(--g800); font-size:1.05rem;">Next Week's ${m.label}</div>
+              <div style="font-size:0.72rem; color:var(--g600);">Vote for your favourite dish</div>
+            </div>
+          </div>
+          <div class="vote-body" id="vbody_${m.key}">${opts}</div>
+        </div>
+      </div>`;
+  });
+}
+
+function selectVote(key, value, el) {
+  votes[key] = value;
+  document.querySelectorAll(`[id^="opt_${key}_"]`).forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input[type="radio"]').checked = true;
+}
+
+function submitVotes() {
+  const hasVote = Object.values(votes).some(v => v !== null);
+  if (!hasVote) { showAlert('alert-box', 'Please vote for at least one meal.', 'danger'); return; }
+  const btn = document.getElementById('voteSubmitBtn');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+  btn.disabled  = true;
+  setTimeout(() => {
+    showAlert('alert-box', '🗳️ Votes submitted! Results will be announced this Sunday midnight.', 'success');
+    toast('Your votes have been counted! 🗳️', 'success');
+    btn.innerHTML = '<i class="fas fa-check"></i> Votes Submitted!';
+    MEALS.forEach(m => {
+      if (votes[m.key]) {
+        document.getElementById(`vbody_${m.key}`).innerHTML = `
+          <div class="voted-box">
+            <div style="font-size:2.4rem; margin-bottom:0.5rem;">✅</div>
+            <strong style="color:var(--g800);">You voted for:</strong>
+            <div style="font-size:1.05rem; color:var(--g600); font-weight:600; margin-top:0.25rem;">${votes[m.key]}</div>
+          </div>`;
+      }
+    });
+  }, 1300);
+}
+
+document.addEventListener('DOMContentLoaded', buildVoteCards);
+</script>
+</body>
+</html>

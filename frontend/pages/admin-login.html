@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { min-height:100vh; background:#0a1f0f; }
+    .admin-auth-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, #0a1f0f 0%, #1a3d25 50%, #0a1f0f 100%);
+    }
+    .admin-auth-bg::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1400&q=50')
+                  center/cover;
+      opacity: 0.1;
+    }
+    .auth-wrap { position:relative; z-index:1; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; }
+    .admin-card {
+      width:100%; max-width:410px;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: var(--radius-lg); padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .admin-card .form-label     { color: rgba(255,255,255,0.75); }
+    .admin-card .form-control   { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.15); color: #fff; }
+    .admin-card .form-control::placeholder { color: rgba(255,255,255,0.35); }
+    .admin-card .form-control:focus { border-color: var(--g400); background: rgba(255,255,255,0.13); box-shadow: 0 0 0 4px rgba(82,183,136,0.15); }
+    .admin-card .i-icon { color: var(--g400); }
+    .demo-box-dark {
+      background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.18);
+      border-radius: var(--radius-sm); padding: 10px 13px;
+      font-size: 0.77rem; color: rgba(255,255,255,0.6); margin-top: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="admin-auth-bg"></div>
+<div class="auth-wrap">
+  <div class="admin-card fade-up">
+    <div class="text-center mb-3" style="margin-bottom:1.9rem !important;">
+      <div style="width:62px; height:62px; background:linear-gradient(135deg,var(--g600),var(--g400)); border-radius:17px; display:flex; align-items:center; justify-content:center; font-size:1.7rem; margin:0 auto 1rem; box-shadow:0 8px 22px rgba(64,145,108,0.4);">🛡️</div>
+      <h2 style="font-family:'Playfair Display',serif; color:#fff; font-size:1.5rem; margin-bottom:0.25rem;">Admin Portal</h2>
+      <p style="color:rgba(255,255,255,0.55); font-size:0.82rem;">Hostel Management Access Only</p>
+    </div>
+
+    <div id="alert-box"></div>
+
+    <form id="adminLoginForm" novalidate>
+      <div class="form-group">
+        <label class="form-label">Admin Email</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-user-shield i-icon"></i>
+          <input type="email" id="email" class="form-control"
+                 placeholder="admin@rajalakshmi.edu.in" required>
+        </div>
+        <div id="emailErr" class="invalid-msg" style="color:rgba(255,180,180,0.9);">
+          <i class="fas fa-exclamation-circle me-1"></i>Only @rajalakshmi.edu.in email allowed
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-lock i-icon"></i>
+          <input type="password" id="password" class="form-control" placeholder="Admin password" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary btn-full mt-1" id="adminBtn" style="font-size:0.95rem; padding:13px;">
+        <i class="fas fa-shield-alt"></i> Admin Login
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <a href="login.html" style="color:rgba(255,255,255,0.45); font-size:0.8rem;">
+        <i class="fas fa-user me-1"></i>Student Login
+      </a>
+    </div>
+
+    <div class="demo-box-dark">
+      <i class="fas fa-info-circle me-2"></i>
+      <strong style="color:rgba(255,255,255,0.75);">Demo:</strong>
+      Use <code style="color:var(--g300);">admin@rajalakshmi.edu.in</code> with any password
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const pass  = document.getElementById('password').value;
+  const btn   = document.getElementById('adminBtn');
+  const errEl = document.getElementById('emailErr');
+
+  if (!isValidEmail(email)) {
+    document.getElementById('email').classList.add('is-invalid');
+    errEl.classList.add('show');
+    return;
+  }
+  errEl.classList.remove('show');
+  document.getElementById('email').classList.remove('is-invalid');
+  if (!pass) { showAlert('alert-box', 'Please enter the admin password.', 'danger'); return; }
+
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+  btn.disabled  = true;
+
+  await new Promise(r => setTimeout(r, 1000));
+
+  Auth.save('demo-admin-token', { ...MOCK.admin, email });
+  showAlert('alert-box', 'Access granted! Redirecting to admin dashboard...', 'success');
+  setTimeout(() => window.location.href = 'admin-dashboard.html', 1200);
+});
+</script>
+</body>
+</html>

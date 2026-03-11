@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); z-index:2000; align-items:center; justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    .modal-box { background:#fff; border-radius:var(--radius-lg); padding:2rem; max-width:460px; width:90%; box-shadow:var(--shadow-xl); animation:fadeUp .3s ease; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-box">🍽️</div>Hostel<span>Food</span>
+    <span class="nav-badge">ADMIN</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="admin-dashboard.html" class="active">Dashboard</a></li>
+    <li><a href="admin-analytics.html">Analytics</a></li>
+    <li><a href="../index.html">View Site</a></li>
+    <li><a href="#" onclick="Auth.logout()" class="btn-outline btn-sm ms-2" style="color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3);">Logout</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="admin-dashboard.html">📊 Dashboard</a>
+  <a href="admin-analytics.html">📈 Analytics</a>
+  <a href="../index.html">🌐 View Site</a>
+  <a href="#" onclick="Auth.logout()">🚪 Logout</a>
+</div>
+
+<div class="page-wrap">
+  <div class="container-fluid p-0">
+    <div class="admin-wrap">
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section">Management</div>
+        <a href="admin-dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+        <a href="admin-analytics.html"><i class="fas fa-chart-bar"></i>Analytics</a>
+        <div class="sidebar-section">Actions</div>
+        <a href="#" onclick="openAnnModal()"><i class="fas fa-bullhorn"></i>Post Announcement</a>
+        <a href="#" onclick="toast('Menu management — connect backend','info')"><i class="fas fa-utensils"></i>Manage Menu</a>
+        <a href="admin-analytics.html"><i class="fas fa-poll"></i>Voting Results</a>
+        <div class="sidebar-section">System</div>
+        <a href="../index.html"><i class="fas fa-globe"></i>View Site</a>
+        <a href="#" onclick="Auth.logout()"><i class="fas fa-sign-out-alt"></i>Logout</a>
+      </aside>
+
+      <!-- Main -->
+      <main class="admin-main">
+        <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3 fade-up">
+          <div>
+            <h2 style="font-family:'Playfair Display',serif; color:var(--g800); margin:0;">Admin Dashboard</h2>
+            <p style="color:var(--g600); font-size:0.82rem; margin:0;">Welcome back, Admin 👋 &nbsp;|&nbsp; <span id="adminDate"></span></p>
+          </div>
+          <button class="btn-primary btn-sm" onclick="openAnnModal()">
+            <i class="fas fa-plus"></i> Post Announcement
+          </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3 fade-up d1">
+            <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-num">1,247</div><div class="stat-lbl">Total Students</div></div>
+          </div>
+          <div class="col-6 col-lg-3 fade-up d2">
+            <div class="stat-card" style="border-left-color:var(--gold);"><div class="stat-icon">⭐</div><div class="stat-num">331</div><div class="stat-lbl">Today's Feedbacks</div></div>
+          </div>
+          <div class="col-6 col-lg-3 fade-up d3">
+            <div class="stat-card" style="border-left-color:#fd7e14;"><div class="stat-icon">📢</div><div class="stat-num">2</div><div class="stat-lbl">Active Announcements</div></div>
+          </div>
+          <div class="col-6 col-lg-3 fade-up d4">
+            <div class="stat-card" style="border-left-color:#0dcaf0;"><div class="stat-icon">🗳️</div><div class="stat-num">892</div><div class="stat-lbl">Votes This Week</div></div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Feedback table -->
+          <div class="col-lg-7 fade-up d2">
+            <div class="card-white p-0" style="cursor:default;">
+              <div style="padding:1.1rem 1.4rem; border-bottom:1px solid rgba(64,145,108,0.1); display:flex; align-items:center; justify-content:space-between;">
+                <h5 style="font-family:'Playfair Display',serif; color:var(--g800); margin:0;">Today's Feedback</h5>
+                <a href="admin-analytics.html" class="btn-outline btn-sm">View All</a>
+              </div>
+              <div class="table-responsive">
+                <div class="tbl-wrap" style="border-radius:0;">
+                  <table class="tbl">
+                    <thead>
+                      <tr><th>Student</th><th>Meal</th><th>Rating</th><th>Comment</th></tr>
+                    </thead>
+                    <tbody id="fbTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Announcements -->
+          <div class="col-lg-5 fade-up d3">
+            <div class="card-white p-0" style="cursor:default;">
+              <div style="padding:1.1rem 1.4rem; border-bottom:1px solid rgba(64,145,108,0.1); display:flex; align-items:center; justify-content:space-between;">
+                <h5 style="font-family:'Playfair Display',serif; color:var(--g800); margin:0;">Announcements</h5>
+                <button class="btn-primary btn-sm" onclick="openAnnModal()"><i class="fas fa-plus"></i> New</button>
+              </div>
+              <div style="padding:1rem;" id="adminAnnList"></div>
+            </div>
+
+            <!-- Voting snapshot -->
+            <div class="card-white p-3 mt-3" style="cursor:default;">
+              <h5 style="font-family:'Playfair Display',serif; color:var(--g800); margin-bottom:1rem;">This Week's Votes</h5>
+              <div id="voteSummary"></div>
+              <a href="admin-analytics.html" class="btn-primary btn-full btn-sm mt-2">Full Results <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- Announcement Modal -->
+<div class="modal-overlay" id="annModal">
+  <div class="modal-box">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.4rem;">
+      <h4 style="font-family:'Playfair Display',serif; color:var(--g800); margin:0;">📢 Post Announcement</h4>
+      <button onclick="closeAnnModal()" style="background:none; border:none; font-size:1.5rem; color:var(--g600); cursor:pointer; line-height:1;">×</button>
+    </div>
+    <div id="ann-modal-alert"></div>
+    <div class="form-group">
+      <label class="form-label">Title</label>
+      <input type="text" id="annTitle" class="form-control" placeholder="Announcement title">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message</label>
+      <textarea id="annMsg" class="form-control" placeholder="Write the announcement message..."></textarea>
+    </div>
+    <div class="d-flex gap-2 mt-1">
+      <button class="btn-primary flex-fill" style="justify-content:center;" onclick="postAnn()">
+        <i class="fas fa-bullhorn"></i> Post Now
+      </button>
+      <button class="btn-outline" onclick="closeAnnModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('adminDate').textContent = todayStr();
+
+  // Feedback table
+  const rows = [
+    { name:'Arjun Kumar',  meal:'Breakfast', rating:4, comment:'Idli was soft and fresh' },
+    { name:'Priya Sharma', meal:'Lunch',     rating:3, comment:'Sambar was slightly salty' },
+    { name:'Rahul Dev',    meal:'Dinner',    rating:5, comment:'Excellent chapati today!' },
+    { name:'Meena R.',     meal:'Snacks',    rating:2, comment:'Biscuits were stale' },
+    { name:'Karthik S.',   meal:'Breakfast', rating:5, comment:'Best idli this week!' }
+  ];
+  const stars = n => '<span style="color:var(--gold);">' + '★'.repeat(n) + '</span>' + '☆'.repeat(5-n);
+  document.getElementById('fbTable').innerHTML = rows.map(r => `
+    <tr>
+      <td><strong style="font-size:0.84rem;">${r.name}</strong></td>
+      <td><span class="badge badge-green" style="font-size:0.65rem;">${r.meal}</span></td>
+      <td style="font-size:0.88rem;">${stars(r.rating)}</td>
+      <td style="font-size:0.8rem; color:var(--g600); max-width:140px;">${r.comment}</td>
+    </tr>`).join('');
+
+  // Announcements list
+  document.getElementById('adminAnnList').innerHTML = MOCK.announcements.map(a => `
+    <div style="padding:11px 13px; border-radius:var(--radius-sm); background:rgba(64,145,108,0.06); border:1px solid rgba(64,145,108,0.15); margin-bottom:9px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+        <strong style="color:var(--g800); font-size:0.84rem; flex:1;">${a.title}</strong>
+        <button onclick="this.closest('div[style]').remove()" style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.85rem; padding:0; flex-shrink:0;">✕</button>
+      </div>
+      <p style="color:var(--g600); font-size:0.78rem; margin:0.3rem 0 0.45rem; line-height:1.5;">${a.message.substring(0,75)}...</p>
+      <div style="font-size:0.7rem; color:var(--g400);">${fmtDateTime(a.postedAt)}</div>
+    </div>`).join('');
+
+  // Vote summary
+  const vd = [
+    { meal:'Breakfast', winner:'Masala Dosa',  votes:312 },
+    { meal:'Lunch',     winner:'Curd Rice',    votes:287 },
+    { meal:'Snacks',    winner:'Medhu Bonda',  votes:198 },
+    { meal:'Dinner',    winner:'Veg Biryani',  votes:342 }
+  ];
+  document.getElementById('voteSummary').innerHTML = vd.map(v => `
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(64,145,108,0.08);">
+      <div>
+        <span class="badge badge-green" style="font-size:0.65rem;">${v.meal}</span>
+        <span style="margin-left:8px; font-size:0.84rem; color:var(--g800); font-weight:600;">${v.winner}</span>
+      </div>
+      <span style="font-size:0.77rem; color:var(--g600); font-weight:600;">${v.votes} votes</span>
+    </div>`).join('');
+});
+
+function openAnnModal()  { document.getElementById('annModal').classList.add('open'); }
+function closeAnnModal() { document.getElementById('annModal').classList.remove('open'); clearAlert('ann-modal-alert'); }
+
+function postAnn() {
+  const title = document.getElementById('annTitle').value.trim();
+  const msg   = document.getElementById('annMsg').value.trim();
+  if (!title || !msg) { showAlert('ann-modal-alert', 'Please fill in both fields.', 'danger'); return; }
+  showAlert('ann-modal-alert', '✅ Announcement posted successfully!', 'success');
+  toast('Announcement posted!', 'success');
+  setTimeout(closeAnnModal, 1500);
+}
+</script>
+</body>
+</html>

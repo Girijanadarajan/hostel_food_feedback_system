@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements — Hostel Food Feedback</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="../index.html" class="nav-logo"><div class="logo-box">🍽️</div>Hostel<span>Food</span></a>
+  <ul class="nav-links">
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="announcements.html" class="active">Announcements</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="#" onclick="Auth.logout()" class="btn-outline btn-sm ms-2" style="color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3);"><i class="fas fa-sign-out-alt"></i></a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu">
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="announcements.html">📢 Announcements</a>
+  <a href="about.html">ℹ️ About</a>
+  <a href="#" onclick="Auth.logout()">🚪 Logout</a>
+</div>
+
+<div class="mini-hero">
+  <div class="container fade-up">
+    <div class="section-tag" style="color:var(--g200);">Hostel Management</div>
+    <h1 style="font-family:'Playfair Display',serif; font-size:clamp(1.7rem,4vw,2.6rem); margin-top:0.4rem;">📢 Announcements</h1>
+    <p style="opacity:0.78; max-width:460px; margin:0.5rem auto 0; font-size:0.9rem;">
+      Stay updated with the latest hostel dining news. Announcements auto-expire after 24 hours.
+    </p>
+  </div>
+</div>
+
+<div class="page-wrap" style="padding-top:0;">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8" id="ann-list"></div>
+      <div class="col-lg-8" id="empty-state" style="display:none;">
+        <div style="text-align:center; padding:4rem 2rem;">
+          <div style="font-size:3.5rem; margin-bottom:1rem;">📭</div>
+          <h4 style="font-family:'Playfair Display',serif; color:var(--g800);">No Active Announcements</h4>
+          <p style="color:var(--g600);">Check back later for hostel dining updates from management.</p>
+          <a href="dashboard.html" class="btn-primary mt-2"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container"><p class="footer-copy" style="margin:0;">© 2026 Hostel Food Feedback System — Rajalakshmi Engineering College</p></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const now    = Date.now();
+  const active = MOCK.announcements.filter(a => now - new Date(a.postedAt).getTime() < 24 * 3600000);
+  const list   = document.getElementById('ann-list');
+
+  if (!active.length) {
+    document.getElementById('empty-state').style.display = 'block';
+    return;
+  }
+
+  active.forEach((a, i) => {
+    const ageH  = Math.floor((now - new Date(a.postedAt).getTime()) / 3600000);
+    const leftH = 24 - ageH;
+    list.innerHTML += `
+      <div class="ann-card mb-4 fade-up d${i+1}">
+        <div class="ann-label">📢 Hostel Announcement</div>
+        <h4>${a.title}</h4>
+        <p>${a.message}</p>
+        <div class="ann-time d-flex align-items-center justify-content-between flex-wrap gap-2" style="margin-top:0.9rem;">
+          <span><i class="fas fa-clock me-1"></i>Posted: ${fmtDateTime(a.postedAt)}</span>
+          <span style="background:rgba(255,255,255,0.15); padding:2px 10px; border-radius:20px; font-size:0.72rem; border:1px solid rgba(255,255,255,0.22);">
+            <i class="fas fa-hourglass-half me-1"></i>Expires in ${leftH}h
+          </span>
+        </div>
+      </div>`;
+  });
+});
+</script>
+</body>
+</html>
